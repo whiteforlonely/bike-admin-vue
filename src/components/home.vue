@@ -5,7 +5,7 @@
         <a href="/"><img src="../assets/logo.png" style="padding-left:8px;"></a>
       </div>
       <div class="topbar-logos">
-        <a href="/" style="color: #fff;"><span>点金彩后台</span></a>
+        <a href="/" style="color: #fff;"><span>车辆共享系统</span></a>
       </div>
       <div class="topbar-account topbar-btn">
         <el-dropdown trigger="click">
@@ -20,8 +20,9 @@
     <el-col :span="24" class="main">
       <aside :class="{showSidebar: !collapsed}">
         <el-menu unique-opened router :collapse="collapsed" ref="leftNavigation" :default-active="navselected" :active="navselected">
+
           <template v-for="(item, index) in $router.options.routes">
-            <template v-if="item.type === $store.state.leftNavState && !item.leaf">
+            <template v-if="Number(item.type) === Number(userType) && !item.leaf">
               <el-submenu :key="item.name" :index="index+''" v-show="item.menuShow">
                 <template slot="title"><i :class="item.iconCls"></i><span slot="title">{{item.name}}</span></template>
                 <el-menu-item v-for="(term) in item.children" :key="term.name" :index="term.path" v-if="term.menuShow"
@@ -57,7 +58,8 @@
       return {
         collapsed: this.$store.state.collapsed,
         nickname: '',
-        navselected: '/'
+        navselected: '/',
+        userType: 0
       };
     },
 
@@ -86,9 +88,13 @@
     },
 
     created () {
-      let nickname = JSON.parse(window.sessionStorage.getItem(this.GLOBAL.STRING_DEFINE.ACCESS_USER)).nickname;
+      let nickname = JSON.parse(window.sessionStorage.getItem(this.GLOBAL.STRING_DEFINE.ACCESS_USER)).userName;
+      let userType = window.sessionStorage.getItem(this.GLOBAL.STRING_DEFINE.USER_TYPE);
       if (nickname) {
         this.nickname = nickname;
+      }
+      if (userType) {
+        this.userType = userType;
       }
     }
   };

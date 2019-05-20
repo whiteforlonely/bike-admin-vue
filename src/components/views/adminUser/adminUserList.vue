@@ -157,7 +157,7 @@
             if (data.result === 'success') {
               _this.fetchData();
             } else {
-              _this.$toast(data.msg);
+              _this.$message(data.msg);
             }
           });
       },
@@ -171,7 +171,7 @@
             if (data.result === 'success') {
               _this.fetchData();
             } else {
-              _this.$toast(data.msg);
+              _this.$message(data.msg);
             }
           });
       },
@@ -185,7 +185,7 @@
             if (data.result === 'success') {
               _this.fetchData();
             } else {
-              _this.$toast(data.msg);
+              _this.$message(data.msg);
               _this.fetchData();
             }
           });
@@ -199,7 +199,7 @@
             if (data.result === 'success') {
               _this.fetchData();
             } else {
-              _this.$toast(data.msg);
+              _this.$message(data.msg);
             }
           });
       },
@@ -212,7 +212,7 @@
             if (data.result === 'success') {
               _this.fetchData();
             } else {
-              _this.$toast(data.msg);
+              _this.$message(data.msg);
             }
           });
       },

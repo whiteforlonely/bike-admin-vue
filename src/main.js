@@ -2,7 +2,6 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue';
 import Vuex from 'vuex';
-import App from './App';
 import router from './router';
 import store from './store';
 import ElementUI from 'element-ui';
@@ -12,19 +11,14 @@ import '@/assets/css/style.css';
 import '@/assets/css/common.css';
 import GLOBAL from './components/base/global';
 import utils from './components/base/utils';
-import 'vue-easytable/libs/themes-base/index.css';
-import {VTable, VPagination} from 'vue-easytable';
-import Toast from './components/views/common/toast';
+import App from './App';
 
 Vue.use(Vuex);
 Vue.use(ElementUI);
 Vue.use(VueResource);
-Vue.use(Toast);
 Vue.config.productionTip = false;
 Vue.prototype.GLOBAL = GLOBAL;
 Vue.prototype.$utils = utils;
-Vue.component(VTable.name, VTable);
-Vue.component(VPagination.name, VPagination);
 
 const app = new Vue({
   el: '#app',

@@ -6,46 +6,28 @@
     <el-row class="search-form">
       <el-form v-model="searchData" labelPosition="right" :labelWidth="formLabelWidth">
         <el-col :span="6">
-          <el-form-item label="会员Id:">
-            <el-input class="width_150 pull_left" size="small" v-model="searchData.tUserInfoId"></el-input>
+          <el-form-item label="用户Id:">
+            <el-input class="width_150 pull-left" size="small" v-model="searchData.tUserInfoId"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
           <el-form-item label="昵称:">
-            <el-input class="width_150 pull_left" size="small" v-model="searchData.nickName"></el-input>
+            <el-input class="width_150 pull-left" size="small" v-model="searchData.nickName"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
           <el-form-item label="电话:">
-            <el-input class="width_150 pull_left" size="small" v-model="searchData.phoneNum"></el-input>
+            <el-input class="width_150 pull-left" size="small" v-model="searchData.phoneNum"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
-          <el-form-item label="真实姓名:">
-            <el-input class="width_150 pull_left" size="small" v-model="searchData.userName"></el-input>
+          <el-form-item label="昵称:">
+            <el-input class="width_150 pull-left" size="small" v-model="searchData.userName"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="6">
-          <el-form-item label="来源渠道:">
-            <el-select class="width_150 pull_left" v-model="searchData.fromPackage" size="small">
-              <el-option v-for="item in fromPackages"
-                         :key="item.value"
-                         :label="item.label"
-                         :value="item.value"></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="6">
-          <el-form-item label="登录时间:">
-            <el-date-picker
-              v-model="searchData.lastLoginTime"
-              align="right"
-              type="date"
-              value-format="yyyy-MM-dd"
-              placeholder="选择日期"
-              size="small"
-              style="width: 150px; float: right;">
-            </el-date-picker>
+        <el-col>
+          <el-form-item label="身份证">
+            <el-input class="width_150 pull-left" size="small" v-model="searchData.identityCard"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="10.5">
@@ -65,11 +47,11 @@
         <el-col :span="2" class="pull-right">
           <el-button type="primary" @click="currPage = 1; fetchData()" size="small">查询</el-button>
         </el-col>
-        <el-col :span="2" class="pull-right">
-          <el-button type="info" @click="exportData()" size="small">导出</el-button>
-        </el-col>
       </el-form>
     </el-row>
+    <el-col :span="4" class="pull-left">
+      <el-button type="primary" @click="showAddUser" size="small">添加用户</el-button>
+    </el-col>
     <div>
       <el-table
         :data="tableData"
@@ -83,80 +65,44 @@
         :summaryMethod="getSummary"
         style="width: 100%">
         <el-table-column
-          type="expand"
+          type="index"
           width="50"
           label="#"
           align="center">
-          <template slot-scope="props">
-            <el-form label-position="left" inline class="table-expand" size="mini">
-              <el-form-item label="真实姓名">
-                <span>{{ props.row.userName }}</span>
-              </el-form-item>
-              <el-form-item label="彩金">
-                <span>{{ props.row.handsel }}</span>
-              </el-form-item>
-              <el-form-item label="红包">
-                <span>{{ props.row.redPacket }}</span>
-              </el-form-item>
-              <el-form-item label="积分">
-                <span>{{ props.row.credit }}</span>
-              </el-form-item>
-              <el-form-item label="注册版本号">
-                <span>{{ props.row.fromVersion }}</span>
-              </el-form-item>
-              <el-form-item label="分享码">
-                <span>{{ props.row.shareCode }}</span>
-              </el-form-item>
-              <el-form-item label="推送状态码">
-                <span>{{ props.row.isPushOn }}</span>
-              </el-form-item>
-            </el-form>
-          </template>
         </el-table-column>
 
         <el-table-column
-          prop="tUserInfoId"
+          prop="id"
           align="center"
-          width="80"
+          width="70"
           label="ID">
         </el-table-column>
 
         <el-table-column
-          prop="baseInfo"
-          label="昵称|手机|邮箱"
-          align="center"
-          :formatter="formatter">
-          <template slot-scope="scope">
-            <span>{{scope.row.nickName}}<br/>{{scope.row.phoneNum}}<br/>{{scope.row.email}}</span>
-          </template>
+          prop="userName"
+          label="昵称"
+          align="center">
         </el-table-column>
 
         <el-table-column
-          label="注册|最后登录时间"
+          prop="phoneNum"
+          label="手机"
+          align="center">
+        </el-table-column>
+
+        <el-table-column
+          prop="identityCard"
+          label="身份证"
+          align="center">
+        </el-table-column>
+
+        <el-table-column
+          label="注册时间"
           prop="regLoginTime"
           align="center">
           <template slot-scope="scope">
             <span>{{scope.row.createTime}}<br/>{{scope.row.lastLoginTime}}</span>
           </template>
-        </el-table-column>
-
-        <el-table-column
-          label="渠道"
-          prop="packageName"
-          align="center">
-        </el-table-column>
-
-        <el-table-column
-          label="账号余额"
-          prop="amount"
-          align="center">
-        </el-table-column>
-
-        <el-table-column
-          label="状态"
-          prop="userStatus"
-          align="center"
-          :formatter="formatter">
         </el-table-column>
 
         <el-table-column
@@ -166,13 +112,8 @@
           align="center">
           <template slot-scope="scope">
             <span>
-            &nbsp;<a href="" @click.stop.prevent="checkDetail(scope.row)">详情</a>&nbsp;
-             <a href="" v-show="scope.row.userStatus === 0" @click.stop.prevent="forbid(scope.row.tUserInfoId)">限制</a>
-             <a href="" v-show="scope.row.userStatus === 100"
-                @click.stop.prevent="release(scope.row.tUserInfoId)">解除</a>
+            &nbsp;<a href="" @click.stop.prevent="checkDetail(scope.row)">编辑</a>&nbsp;
              <a href="" @click.stop.prevent="deleteRecord(scope.row.tUserInfoId)">删除</a><br/>
-             <a href="" @click.stop.prevent="selectUserOrder(scope.row.tUserInfoId)">订单</a>
-             <a href="" @click.stop.prevent="preUpdCertification(scope.row.tUserInfoId)">修改验证</a>
             </span>
           </template>
         </el-table-column>
@@ -294,7 +235,7 @@
           .then(response => {
             let data = response.body;
             if (data.result === 'fail') {
-              _this.$toast(data.msg);
+              _this.$message(data.msg);
             } else {
               _this.tableData = data.list;
               _this.totalCount = data.total;
@@ -316,7 +257,7 @@
       },
       checkDetail (row) {
         this.$router.push({
-          path: '/vip/userDetail',
+          path: '/vip/userDetail.vue',
           query: {
             userId: row.tUserInfoId
           }
@@ -338,7 +279,7 @@
             if (data.result === 'success') {
               _this.fetchData();
             } else {
-              _this.$toast(data.msg);
+              _this.$message(data.msg);
             }
           });
       },
@@ -350,7 +291,7 @@
             if (data.result === 'success') {
               _this.fetchData();
             } else {
-              _this.$toast(data.msg);
+              _this.$message(data.msg);
             }
           });
       },
@@ -362,7 +303,7 @@
             if (data.result === 'success') {
               _this.fetchData();
             } else {
-              _this.$toast(data.msg);
+              _this.$message(data.msg);
             }
           });
       },
@@ -375,7 +316,7 @@
               _this.tUserCertification = data.tUserCertification;
               this.dialogFormVisible = true;
             } else {
-              _this.$toast('该用户未绑定有效证件');
+              _this.$message('该用户未绑定有效证件');
             }
           });
       },
@@ -392,10 +333,10 @@
           .then(response => {
             let data = response.body;
             if (data.result === 'success') {
-              _this.$toast(data.msg);
+              _this.$message(data.msg);
               _this.fetchData();
             } else {
-              _this.$toast(data.msg);
+              _this.$message(data.msg);
               _this.fetchData();
             }
           });
